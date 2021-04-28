@@ -7,10 +7,10 @@ import smtplib
 # from email.mime.text import MIMEText
 # from email.header import Header
 
-process ="./test.lock"
+process ="./test.log"
 os.system("ps -ef|grep test.py|grep -v grep >%s" % process)
 if not(os.path.getsize(process)):
-    print("morton - 1")
+    print("Check: test.py not run")
 # os.system("nohup /home/languid/jiaoben.py %")
 else:
-    print("test - ok")
+    print("Check: test.py is run")
