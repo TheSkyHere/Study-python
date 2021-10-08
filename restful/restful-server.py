@@ -40,8 +40,10 @@ async def response7(request):
 async def response8(request):
     return web.Response(text='Hello this /api/m5/1!')
 async def response9(request):
-
     return web.Response(text='Hello this /api/m5/1!')
+async def response10(request):
+    print("/api/m5/{value}==",request.match_info["value"])
+    return web.Response(text='Hello this /api/m5/[value]!')
 
 def setup_routes(app):
     app.router.add_get('/api', response1)
@@ -53,6 +55,7 @@ def setup_routes(app):
     app.router.add_get('/api/m5/1', response7)
     app.router.add_get('/api/m5/2', response8)
     app.router.add_get('/api/m5/3', response9)
+    app.router.add_get('/api/m5/{value}', response10)
 
 def app():
     global _instance
@@ -74,6 +77,9 @@ def get_endpoints(path: str):
     for route in app.router.resources():
         print("morton-debug-1",route)
         string = str(route)
+        #github -->Amithash Prasad 
+        # string1 = str(route.url_for())
+        # print("morton-debug-test",string1)
         rest_route_path = string[string.index("  "):].split("/")
         print("morton-debug-2",rest_route_path)
         if len(rest_route_path) > position and path in string:
@@ -105,5 +111,6 @@ print(string)
 web.run_app(app, host='127.0.0.1', port=8090)
 
 
-
+#readme:
+#you can ues command:
 # curl -X GET localhost:8090/api/m5 
