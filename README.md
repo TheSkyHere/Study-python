@@ -1,1 +1,2 @@
-# Study-python
+python环境搭建
+项目中requirements.txt的用法

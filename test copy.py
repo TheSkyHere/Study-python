@@ -1,35 +1,25 @@
 #!/usr/bin/python3
-import os,sys
-from aiohttp import web
+import os
+import time
+import pexpect
+import logging
 
-async def test(request):
-    print('Handler function called')
-    return web.Response(text="Hello")
+log = logging.getLogger(__name__)
 
-@web.middleware
-async def middleware1(request, handler):
-    print('Middleware 1 called')
-    response = await handler(request)
-    print('Middleware 1 finished')
-    return response
 
-@web.middleware
-async def middleware2(request, handler):
-    print('Middleware 2 called')
-    response = await handler(request)
-    print('Middleware 2 finished')
-    return response
-async def hello(request):
-    return web.Response(text='Hello Aiohttp!')
+def test_nic():
+    out=pexpect.spawn('/home/admin/bf-sde-9.3.1-1.01.00/install/bin/bfshell')
+    time.sleep(1)
+    out.sendline("ucli \n")
+    time.sleep(1)
+    out.sendline("pm \n")
+    time.sleep(1)
+    out.sendline("show \n")
+    out.expect("bf-sde", timeout=10)
+    log.info("test")
+    log.info("test" + str(out.before))
+    time.sleep(1)
+    return True
 
-def setup_routes(app):
-    app.router.add_get('/hello', hello)
 
-print('Handler function called')
-app = web.Application(middlewares=[middleware1, middleware2])
-# app = web.Application()
-print(app)
-setup_routes(app)
-# app.router.add_get('/', test)
-# web.run_app(app)
-web.run_app(app, host='127.0.0.1', port=8070)
+test_nic()
